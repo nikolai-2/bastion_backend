@@ -5,16 +5,15 @@ import { ZoneService } from './zone.service';
 @Controller('zone')
 @ApiTags('zone')
 export class ZoneController {
-    constructor(private zoneService:ZoneService){}
+  constructor(private zoneService: ZoneService) {}
 
-    @Get("/get")
-    get(){
-        return this.zoneService.get()
-    }
+  @Get('/get')
+  get() {
+    return this.zoneService.get();
+  }
 
-    @Post("/check")
-    checkZone(){
-        return this.zoneService.check()
-    }
-
+  @Post('/check')
+  checkZone() {
+    return this.zoneService.check();
+  }
 }

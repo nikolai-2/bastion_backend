@@ -1,16 +1,28 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
+import { PrismaService } from '../prisma/prisma.service';
+import { PlaceExtendType } from './place-extend.type';
 
 @Injectable()
 export class PlaceService {
-    getPlace(){
-        return "Place here"
-    }
+  constructor(private prisma: PrismaService) {}
 
-    newPlace(){
-        return "Create place"
-    }
+  getPlace() {
+    return 'Place here';
+  }
 
-    removePlace(){
-        return "Remove place"
-    }
+  removePlace() {
+    return 'Remove place';
+  }
+
+  async place(params: {
+    where: Prisma.PlaceWhereUniqueInput;
+    include?: Prisma.PlaceInclude;
+  }): Promise<PlaceExtendType> {
+    const { where, include } = params;
+    return this.prisma.place.findUnique({
+      where: where,
+      include: include,
+    });
+  }
 }

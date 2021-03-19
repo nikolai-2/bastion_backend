@@ -1,6 +1,5 @@
-import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
+import { Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { LocalAuthGuard } from './local-auth.guard';
-import { JwtAuthGuard } from './jwt-auth.guard';
 import { AuthService } from './auth.service';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -13,11 +12,5 @@ export class AuthController {
   @Post('login')
   login(@Request() req) {
     return this.authService.getToken(req.user);
-  }
-
-  @Get('test')
-  @UseGuards(JwtAuthGuard)
-  test() {
-    return 'Вадик люблю тебя';
   }
 }

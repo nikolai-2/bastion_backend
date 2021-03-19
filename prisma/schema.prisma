@@ -8,24 +8,51 @@ datasource db {
 }
 
 model Place {
-  id   Int    @id @default(autoincrement())
-  name String
-  Zone Zone[]
+  id               Int                @id @default(autoincrement())
+  name             String
+  UserPlaceCheckup UserPlaceCheckup[]
+  Zone             Zone[]
 }
 
 model User {
-  id            Int    @id @default(autoincrement())
-  name          String
-  login         String @unique
-  password_hash String
-  role          String @default("guard")
+  id               Int                @id @default(autoincrement())
+  name             String
+  login            String             @unique
+  password_hash    String
+  role             String             @default("guard")
+  UserPlaceCheckup UserPlaceCheckup[]
 }
 
 model Zone {
-  id       Int    @id @default(autoincrement())
+  id       String @id
   place_id Int
   name     String
   Place    Place  @relation(fields: [place_id], references: [id])
 
   @@index([place_id], name: "place_id")
+}
+
+model UserPlaceCheckup {
+  id          Int           @id @default(autoincrement())
+  user_id     Int
+  place_id    Int
+  date        DateTime
+  time        DateTime
+  Place       Place         @relation(fields: [place_id], references: [id])
+  User        User          @relation(fields: [user_id], references: [id])
+  ZoneCheckup ZoneCheckup[]
+
+  @@index([place_id], name: "place_id")
+  @@index([user_id], name: "user_id")
+}
+
+model ZoneCheckup {
+  checkup_id       Int
+  zone_id          String
+  checked          Boolean
+  UserPlaceCheckup UserPlaceCheckup @relation(fields: [checkup_id], references: [id])
+
+  @@id([checkup_id, zone_id])
+  @@index([checkup_id], name: "checkup_id")
+  @@index([zone_id], name: "zone_id")
 }
