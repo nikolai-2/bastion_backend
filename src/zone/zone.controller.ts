@@ -7,12 +7,12 @@ import { ZoneService } from './zone.service';
 export class ZoneController {
   constructor(private zoneService: ZoneService) {}
 
-  @Get('/get')
+  @Get('get')
   get() {
     return this.zoneService.get();
   }
 
-  @Post('/check')
+  @Post('check')
   checkZone() {
     return this.zoneService.check();
   }
