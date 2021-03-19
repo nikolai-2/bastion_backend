@@ -10,16 +10,16 @@ export class PlaceController {
 
     @Get("/get")
     getPlace(){
-
+        return this.placeService.getPlace()
     }
 
     @Post("/new")
     newPlace(){
-
+        return this.placeService.getPlace()
     }
 
-    @Delete("/remove")
+    @Get("/remove")
     removePlace(){
-        
+        return this.placeService.removePlace()
     }
 }
