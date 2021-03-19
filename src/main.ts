@@ -9,7 +9,6 @@ async function bootstrap() {
     .setTitle('Skat guard')
     .setDescription('Description')
     .setVersion('1.0')
-    .addTag('skat')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
