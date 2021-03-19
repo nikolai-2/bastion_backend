@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 export class AuthController {
     constructor(private authService: AuthService){}
 
-    @Get()
+    @Get("/login")
     login(){
         return this.authService.login()
     }
