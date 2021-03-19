@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Place {
+  id   Int    @id @default(autoincrement())
+  name String
+  Zone Zone[]
+}
+
+model User {
+  id            Int    @id @default(autoincrement())
+  name          String
+  password_hash String
+  role          String @default("guard")
+}
+
+model Zone {
+  id       Int    @id @default(autoincrement())
+  place_id Int
+  name     String
+  Place    Place  @relation(fields: [place_id], references: [id])
+
+  @@index([place_id], name: "place_id")
+}
