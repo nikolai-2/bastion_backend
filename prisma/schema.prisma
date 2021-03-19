@@ -16,6 +16,7 @@ model Place {
 model User {
   id            Int    @id @default(autoincrement())
   name          String
+  login         String
   password_hash String
   role          String @default("guard")
 }
