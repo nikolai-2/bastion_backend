@@ -1,8 +1,10 @@
 import { Controller, Delete, Get, Post } from '@nestjs/common';
+import { ApiProperty, ApiTags } from '@nestjs/swagger';
 import { get } from 'http';
 import { PlaceService } from './place.service';
 
 @Controller('place')
+@ApiTags('place')
 export class PlaceController {
     constructor(private placeService:PlaceService){
 
