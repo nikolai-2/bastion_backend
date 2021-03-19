@@ -6,7 +6,7 @@ import { PlaceModule } from './place/place.module';
 import { ZoneModule } from './zone/zone.module';
 
 @Module({
-  imports: [AuthModule, UserModule, PrismaModule,PlaceModule,ZoneModule],
+  imports: [AuthModule, UserModule, PrismaModule, PlaceModule, ZoneModule],
   controllers: [],
   providers: [],
 })

@@ -4,9 +4,6 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 @UseGuards(JwtAuthGuard)
 @Controller('checkup')
 export class CheckupController {
-
   @Get('{date}/getList')
-  async getList(@Param('date') date: string) {
-
-  }
+  async getList(@Param('date') date: string) {}
 }
