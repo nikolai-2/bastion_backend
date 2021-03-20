@@ -13,10 +13,11 @@ import { CheckupItemDto } from './dto/checkup-item.dto';
 import { CheckedInputDto } from './dto/checked-input.dto';
 import { ShiftZoneExtendType } from '../shift-zone/shift-zone-extend.type';
 import { AddCommentDto } from './add-comment.dto';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @UseGuards(JwtAuthGuard)
 @Controller('checkup')
+@ApiTags("checkup")
 export class CheckupController {
   constructor(private checkupService: CheckupService) {}
 
@@ -30,6 +31,7 @@ export class CheckupController {
   }
 
   @Post('checked')
+  @ApiProperty({type:CheckedInputDto})
   async checked(
     @Request() req,
     @Body() checkedInputDto: CheckedInputDto,
@@ -38,6 +40,7 @@ export class CheckupController {
   }
 
   @Post('addComment')
+  @ApiProperty({type:AddCommentDto})
   async addComment(
     @Request() req,
     @Body() addCommentDto: AddCommentDto,
