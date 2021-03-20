@@ -1,18 +1,21 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiProperty } from '@nestjs/swagger';
 import { Prisma, ScheduleShiftPattern } from '@prisma/client';
+import { Roles } from 'src/role/roles.decorator';
+import { Role } from 'src/role/roles.enum';
+import { RolesGuard } from 'src/role/roles.guard';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ScheduleInputDto } from './schedule-input.dto';
 import { ScheduleShiftPatternService } from './schedule-shift-pattern.service';
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard,RolesGuard)
 @Controller('schedule')
 export class ScheduleShiftPatternController {
   constructor(
     private scheduleShiftPatternService: ScheduleShiftPatternService,
   ) {}
 
-  //TODO Дописать гуард (босс)
+  @Roles(Role.Boss)
   @ApiProperty({type:ScheduleInputDto})
   @Post('create')
   async create(
