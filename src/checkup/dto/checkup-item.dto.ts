@@ -1,4 +1,4 @@
-import { ScheduleShiftPatternExtendType } from '../schedule-shift-pattern/schedule-shift-pattern-extend.type';
+import { ScheduleShiftPatternExtendType } from '../../schedule-shift-pattern/schedule-shift-pattern-extend.type';
 import { Prisma, User, ShiftZone, Zone } from '.prisma/client';
 import { PlaceExtendType } from 'src/place/place-extend.type';
 import { ApiProduces, ApiProperty, OmitType, PartialType, PickType } from '@nestjs/swagger';

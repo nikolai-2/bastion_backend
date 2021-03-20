@@ -2,7 +2,7 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { ShiftZone, User } from '@prisma/client';
 import { ScheduleShiftPatternService } from '../schedule-shift-pattern/schedule-shift-pattern.service';
 import { ScheduleShiftPatternExtendType } from '../schedule-shift-pattern/schedule-shift-pattern-extend.type';
-import { CheckedInputDto } from './checked-input.dto';
+import { CheckedInputDto } from './dto/checked-input.dto';
 import { ShiftZoneExtendType } from '../shift-zone/shift-zone-extend.type';
 import { ShiftZoneService } from '../shift-zone/shift-zone.service';
 import { AddCommentDto } from './add-comment.dto';
