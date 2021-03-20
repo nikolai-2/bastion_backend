@@ -22,6 +22,7 @@ export class PlaceController {
   @Roles(Role.Boss)
   @Post('create')
   @ApiProperty({type:PlaceInputDto})
+  @ApiOperation({ summary: 'Создает новый объект для охраны' })
   async createPlace(@Body() placeInputDto: PlaceInputDto) {
     return this.placeService.createPlace({
       name: placeInputDto.place_name,

@@ -29,7 +29,7 @@ export class PlaceInputDto {
     each: true,
   })
   @Type(() => ZoneInputDto)
-  @ApiProperty({type:ZoneInputDto})
+  @ApiProperty({type:[ZoneInputDto]})
   zones: ZoneInputDto[];
 }
 
