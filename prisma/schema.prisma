@@ -45,6 +45,7 @@ model User {
   id                   Int                    @id @default(autoincrement())
   name                 String
   login                String                 @unique
+  avatar_src           String
   password_hash        String
   role                 String                 @default("guard")
   ScheduleShiftPattern ScheduleShiftPattern[]
