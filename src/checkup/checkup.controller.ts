@@ -13,6 +13,7 @@ import { CheckupItemDto } from './checkup-item.dto';
 import { CheckedInputDto } from './checked-input.dto';
 import { ShiftZoneExtendType } from '../shift-zone/shift-zone-extend.type';
 import { AddCommentDto } from './add-comment.dto';
+import { ApiResponse } from '@nestjs/swagger';
 
 @UseGuards(JwtAuthGuard)
 @Controller('checkup')
@@ -20,6 +21,7 @@ export class CheckupController {
   constructor(private checkupService: CheckupService) {}
 
   @Get(':date/getList')
+  @ApiResponse({description:"EXAMPLE: https://pastebin.com/vkwwUwDJ",type:CheckupItemDto})
   async getList(
     @Request() req,
     @Param('date') date: string,
