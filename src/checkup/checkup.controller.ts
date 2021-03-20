@@ -16,13 +16,15 @@ import { AddCommentDto } from './add-comment.dto';
 import { ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/role/roles.decorator';
 import { Role } from 'src/role/roles.enum';
+import { RolesGuard } from 'src/role/roles.guard';
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard,RolesGuard)
 @Controller('checkup')
 @ApiTags("checkup")
 export class CheckupController {
   constructor(private checkupService: CheckupService) {}
 
+  @Roles(Role.Guard)
   @Get(':date/getList')
   @ApiResponse({description:"EXAMPLE: https://pastebin.com/vkwwUwDJ"})
   async getList(
@@ -32,6 +34,8 @@ export class CheckupController {
     return await this.checkupService.getList(req.user, date);
   }
 
+  
+  @Roles(Role.Guard)
   @Post('checked')
   @ApiProperty({type:CheckedInputDto})
   async checked(
@@ -41,6 +45,7 @@ export class CheckupController {
     return this.checkupService.checked(checkedInputDto);
   }
 
+  
   @Roles(Role.Guard)
   @Post('addComment')
   @ApiProperty({type:AddCommentDto})
