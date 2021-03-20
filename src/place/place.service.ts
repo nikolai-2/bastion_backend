@@ -17,12 +17,18 @@ export class PlaceService {
 
   async place(params: {
     where: Prisma.PlaceWhereUniqueInput;
-    /*include?: Prisma.PlaceInclude;*/
+    include?: Prisma.PlaceInclude;
   }): Promise<PlaceExtendType> {
-    const { where /*include*/ } = params;
+    const { where, include } = params;
     return this.prisma.place.findUnique({
       where: where,
-      /* include: include,*/
+      include: include,
+    });
+  }
+
+  createPlace(data: Prisma.PlaceCreateInput) {
+    return this.prisma.place.create({
+      data: data,
     });
   }
 }
