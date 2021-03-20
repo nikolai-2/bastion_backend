@@ -14,6 +14,8 @@ import { CheckedInputDto } from './dto/checked-input.dto';
 import { ShiftZoneExtendType } from '../shift-zone/shift-zone-extend.type';
 import { AddCommentDto } from './add-comment.dto';
 import { ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Roles } from 'src/role/roles.decorator';
+import { Role } from 'src/role/roles.enum';
 
 @UseGuards(JwtAuthGuard)
 @Controller('checkup')
@@ -39,6 +41,7 @@ export class CheckupController {
     return this.checkupService.checked(checkedInputDto);
   }
 
+  @Roles(Role.Guard)
   @Post('addComment')
   @ApiProperty({type:AddCommentDto})
   async addComment(
