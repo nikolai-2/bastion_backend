@@ -17,16 +17,17 @@ import { ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/role/roles.decorator';
 import { Role } from 'src/role/roles.enum';
 import { RolesGuard } from 'src/role/roles.guard';
+import { inspect } from 'util';
 
-@UseGuards(JwtAuthGuard,RolesGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('checkup')
-@ApiTags("checkup")
+@ApiTags('checkup')
 export class CheckupController {
   constructor(private checkupService: CheckupService) {}
 
   @Roles(Role.Guard)
   @Get(':date/getList')
-  @ApiResponse({description:"EXAMPLE: https://pastebin.com/vkwwUwDJ"})
+  @ApiResponse({ description: 'EXAMPLE: https://pastebin.com/vkwwUwDJ' })
   async getList(
     @Request() req,
     @Param('date') date: string,
@@ -34,10 +35,9 @@ export class CheckupController {
     return await this.checkupService.getList(req.user, date);
   }
 
-  
   @Roles(Role.Guard)
   @Post('checked')
-  @ApiProperty({type:CheckedInputDto})
+  @ApiProperty({ type: CheckedInputDto })
   async checked(
     @Request() req,
     @Body() checkedInputDto: CheckedInputDto,
@@ -45,10 +45,9 @@ export class CheckupController {
     return this.checkupService.checked(checkedInputDto);
   }
 
-  
   @Roles(Role.Guard)
   @Post('addComment')
-  @ApiProperty({type:AddCommentDto})
+  @ApiProperty({ type: AddCommentDto })
   async addComment(
     @Request() req,
     @Body() addCommentDto: AddCommentDto,

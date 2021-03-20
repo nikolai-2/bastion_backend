@@ -1,4 +1,8 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import { ShiftZone, User } from '@prisma/client';
 import { ScheduleShiftPatternService } from '../schedule-shift-pattern/schedule-shift-pattern.service';
 import { ScheduleShiftPatternExtendType } from '../schedule-shift-pattern/schedule-shift-pattern-extend.type';
@@ -87,8 +91,17 @@ export class CheckupService {
     if (scheduleShiftPattern.Place.Zone.length < 1)
       throw new ForbiddenException();
 
+    const eventDate = scheduleShiftPattern.date;
+    const unixEventTime =
+      eventDate.getUTCHours() * 3600 + eventDate.getUTCMinutes() * 60;
+    const currentDate = new Date();
+    const unixCurrentTime =
+      currentDate.getUTCHours() * 3600 + currentDate.getUTCMinutes() * 60;
+
+    if (unixCurrentTime < unixEventTime) throw new BadRequestException();
+
     return this.shiftZoneService.createShiftZone({
-      comment: '',
+      comment: checkedInputDto.comment,
       ScheduleShiftPattern: {
         connect: {
           id: checkedInputDto.schedule_shift_id,
