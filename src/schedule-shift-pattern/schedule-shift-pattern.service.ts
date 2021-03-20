@@ -28,4 +28,12 @@ export class ScheduleShiftPatternService {
       include: include,
     });
   }
+
+  async createScheduleShiftPattern(
+    data: Prisma.ScheduleShiftPatternCreateInput,
+  ) {
+    return this.prisma.scheduleShiftPattern.create({
+      data: data,
+    });
+  }
 }
