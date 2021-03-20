@@ -6,6 +6,7 @@ import { PlaceModule } from './place/place.module';
 import { ZoneModule } from './zone/zone.module';
 import { CheckupModule } from './checkup/checkup.module';
 import { ScheduleShiftPatternModule } from './schedule-shift-pattern/schedule-shift-pattern.module';
+import { ShiftZoneModule } from './shift-zone/shift-zone.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ScheduleShiftPatternModule } from './schedule-shift-pattern/schedule-sh
     ZoneModule,
     CheckupModule,
     ScheduleShiftPatternModule,
+    ShiftZoneModule,
   ],
   controllers: [],
   providers: [],

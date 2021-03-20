@@ -1,12 +1,17 @@
-import { Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
+import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ShiftZone, User } from '@prisma/client';
 import { ScheduleShiftPatternService } from '../schedule-shift-pattern/schedule-shift-pattern.service';
 import { ScheduleShiftPatternExtendType } from '../schedule-shift-pattern/schedule-shift-pattern-extend.type';
+import { CheckedInputDto } from './checked-input.dto';
+import { ShiftZoneExtendType } from '../shift-zone/shift-zone-extend.type';
+import { ShiftZoneService } from '../shift-zone/shift-zone.service';
+import { AddCommentDto } from './add-comment.dto';
 
 @Injectable()
 export class CheckupService {
   constructor(
     private scheduleShiftPatternService: ScheduleShiftPatternService,
+    private shiftZoneService: ShiftZoneService,
   ) {}
 
   async getList(
@@ -55,5 +60,56 @@ export class CheckupService {
     }
 
     return checkupsItems;
+  }
+
+  async checked(
+    checkedInputDto: CheckedInputDto,
+  ): Promise<ShiftZoneExtendType> {
+    const scheduleShiftPattern = await this.scheduleShiftPatternService.scheduleShiftPattern(
+      {
+        where: {
+          id: checkedInputDto.schedule_shift_id,
+        },
+        include: {
+          Place: {
+            include: {
+              Zone: {
+                where: {
+                  id: checkedInputDto.zone_id,
+                },
+              },
+            },
+          },
+        },
+      },
+    );
+
+    if (scheduleShiftPattern.Place.Zone.length < 1)
+      throw new ForbiddenException();
+
+    return this.shiftZoneService.createShiftZone({
+      comment: '',
+      ScheduleShiftPattern: {
+        connect: {
+          id: checkedInputDto.schedule_shift_id,
+        },
+      },
+      Zone: {
+        connect: {
+          id: checkedInputDto.zone_id,
+        },
+      },
+    });
+  }
+
+  async addComment(addCommentDto: AddCommentDto): Promise<ShiftZone> {
+    return this.shiftZoneService.updateShiftZone({
+      where: {
+        id: addCommentDto.shift_zone_record_id,
+      },
+      data: {
+        comment: addCommentDto.comment,
+      },
+    });
   }
 }
