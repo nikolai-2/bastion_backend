@@ -5,9 +5,22 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
+
+
+export class ZoneInputDto {
+  @IsString()
+  @ApiProperty({example:1})
+  id: string;
+
+  @IsString()
+  @ApiProperty({example:'Mother room'})
+  name: string;
+}
 
 export class PlaceInputDto {
   @IsString()
+  @ApiProperty({example:"Place for buhich"})
   place_name: string;
 
   @IsArray()
@@ -16,13 +29,7 @@ export class PlaceInputDto {
     each: true,
   })
   @Type(() => ZoneInputDto)
+  @ApiProperty({type:ZoneInputDto})
   zones: ZoneInputDto[];
 }
 
-export class ZoneInputDto {
-  @IsString()
-  id: string;
-
-  @IsString()
-  name: string;
-}

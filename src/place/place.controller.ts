@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiProperty, ApiTags } from '@nestjs/swagger';
 import { PlaceService } from './place.service';
 import { PlaceInputDto } from './place-input.dto';
 import { RolesGuard } from 'src/role/roles.guard';
@@ -21,7 +21,7 @@ export class PlaceController {
 
   @Roles(Role.Boss)
   @Post('create')
-  @ApiOperation({ summary: 'Создает новый объект охраны' })
+  @ApiProperty({type:PlaceInputDto})
   async createPlace(@Body() placeInputDto: PlaceInputDto) {
     return this.placeService.createPlace({
       name: placeInputDto.place_name,
