@@ -8,51 +8,54 @@ datasource db {
 }
 
 model Place {
-  id               Int                @id @default(autoincrement())
-  name             String
-  UserPlaceCheckup UserPlaceCheckup[]
-  Zone             Zone[]
+  id                   Int                    @id @default(autoincrement())
+  name                 String
+  ScheduleShiftPattern ScheduleShiftPattern[]
+  Zone                 Zone[]
 }
 
-model User {
-  id               Int                @id @default(autoincrement())
-  name             String
-  login            String             @unique
-  password_hash    String
-  role             String             @default("guard")
-  UserPlaceCheckup UserPlaceCheckup[]
-}
-
-model Zone {
-  id       String @id
-  place_id Int
-  name     String
-  Place    Place  @relation(fields: [place_id], references: [id])
-
-  @@index([place_id], name: "place_id")
-}
-
-model UserPlaceCheckup {
-  id          Int           @id @default(autoincrement())
+model ScheduleShiftPattern {
+  id          Int         @id @default(autoincrement())
   user_id     Int
   place_id    Int
   date        DateTime
-  time        DateTime
-  Place       Place         @relation(fields: [place_id], references: [id])
-  User        User          @relation(fields: [user_id], references: [id])
-  ZoneCheckup ZoneCheckup[]
+  repeat_when Json
+  Place       Place       @relation(fields: [place_id], references: [id])
+  User        User        @relation(fields: [user_id], references: [id])
+  ShiftZone   ShiftZone[]
 
   @@index([place_id], name: "place_id")
   @@index([user_id], name: "user_id")
 }
 
-model ZoneCheckup {
-  checkup_id       Int
-  zone_id          String
-  checked          Boolean
-  UserPlaceCheckup UserPlaceCheckup @relation(fields: [checkup_id], references: [id])
+model ShiftZone {
+  id                        Int                  @id @default(autoincrement())
+  schedule_shift_pattern_id Int
+  zone_id                   String
+  date                      DateTime             @default(now())
+  comment                   String
+  ScheduleShiftPattern      ScheduleShiftPattern @relation(fields: [schedule_shift_pattern_id], references: [id])
+  Zone                      Zone                 @relation(fields: [zone_id], references: [id])
 
-  @@id([checkup_id, zone_id])
-  @@index([checkup_id], name: "checkup_id")
+  @@index([schedule_shift_pattern_id], name: "schedule_shift_zone_id")
   @@index([zone_id], name: "zone_id")
+}
+
+model User {
+  id                   Int                    @id @default(autoincrement())
+  name                 String
+  login                String                 @unique
+  password_hash        String
+  role                 String                 @default("guard")
+  ScheduleShiftPattern ScheduleShiftPattern[]
+}
+
+model Zone {
+  id        String      @id
+  place_id  Int
+  name      String
+  Place     Place       @relation(fields: [place_id], references: [id])
+  ShiftZone ShiftZone[]
+
+  @@index([place_id], name: "place_id")
 }
