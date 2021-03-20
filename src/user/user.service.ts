@@ -11,4 +11,10 @@ export class UserService {
       where: whereUnique,
     });
   }
+
+  async users(where: Prisma.UserWhereInput): Promise<User[]> {
+    return this.prisma.user.findMany({
+      where: where,
+    });
+  }
 }
