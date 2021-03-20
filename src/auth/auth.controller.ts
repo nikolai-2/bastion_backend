@@ -1,11 +1,12 @@
 import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
 import { LocalAuthGuard } from './local-auth.guard';
 import { AuthService } from './auth.service';
-import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOkResponse, ApiOperation, ApiProperty, ApiResponse, ApiTags, PartialType } from '@nestjs/swagger';
 import { UserLoginDto } from './user-login.dto';
 import { LoginResponseInterface } from './login-response.interface';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { User } from '@prisma/client';
+import { smallUser } from './smallUser.dto';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -24,6 +25,8 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @ApiOperation({summary:"Get user by token"})
+  @ApiOkResponse({type:smallUser})
   @Get('getUser')
   async getUser(@Request() req) {
     const user: User = req.user;
