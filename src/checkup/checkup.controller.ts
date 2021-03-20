@@ -2,9 +2,12 @@ import { Controller, Get, Param, UseGuards, Request } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CheckupService } from './checkup.service';
 import { ScheduleShiftPatternExtendType } from '../schedule-shift-pattern/schedule-shift-pattern-extend.type';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @UseGuards(JwtAuthGuard)
 @Controller('checkup')
+@ApiTags('checkup')
+
 export class CheckupController {
   constructor(private checkupService: CheckupService) {}
 
