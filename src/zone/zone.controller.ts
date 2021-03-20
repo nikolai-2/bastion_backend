@@ -1,10 +1,11 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Logger, Post } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ZoneService } from './zone.service';
 
 @Controller('zone')
 @ApiTags('zone')
 export class ZoneController {
+  private readonly logger = new Logger(ZoneController.name)
   constructor(private zoneService: ZoneService) {}
 
   @Get('get')

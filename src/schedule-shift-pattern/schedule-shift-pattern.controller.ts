@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Logger, Post, UseGuards } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiProperty } from '@nestjs/swagger';
 import { Prisma, ScheduleShiftPattern } from '@prisma/client';
 import { Roles } from 'src/role/roles.decorator';
@@ -11,6 +11,7 @@ import { ScheduleShiftPatternService } from './schedule-shift-pattern.service';
 @UseGuards(JwtAuthGuard,RolesGuard)
 @Controller('schedule')
 export class ScheduleShiftPatternController {
+  private readonly logger = new Logger(ScheduleShiftPatternController.name)
   constructor(
     private scheduleShiftPatternService: ScheduleShiftPatternService,
   ) {}
@@ -21,6 +22,7 @@ export class ScheduleShiftPatternController {
   async create(
     @Body() scheduleInput: ScheduleInputDto,
   ): Promise<ScheduleShiftPattern> {
+    this.logger.log(scheduleInput,'create')
     return this.scheduleShiftPatternService.createScheduleShiftPattern({
       User: {
         connect: {

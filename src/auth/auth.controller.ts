@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
+import { Controller, Get, Logger, Post, Request, UseGuards } from '@nestjs/common';
 import { LocalAuthGuard } from './local-auth.guard';
 import { AuthService } from './auth.service';
 import { ApiBody, ApiOkResponse, ApiOperation, ApiProperty, ApiResponse, ApiTags, PartialType } from '@nestjs/swagger';
@@ -11,6 +11,7 @@ import { smallUser } from './smallUser.dto';
 @Controller('auth')
 @ApiTags('auth')
 export class AuthController {
+  private readonly logger = new Logger(AuthController.name)
   constructor(private authService: AuthService) {}
 
   @UseGuards(LocalAuthGuard)
@@ -21,6 +22,7 @@ export class AuthController {
   @Post('login')
   @ApiBody({ type: UserLoginDto })
   async login(@Request() req): Promise<LoginResponseInterface> {
+    this.logger.log(req.user,"login")
     return this.authService.getToken(req.user);
   }
 
@@ -29,6 +31,7 @@ export class AuthController {
   @ApiOkResponse({type:smallUser})
   @Get('getUser')
   async getUser(@Request() req) {
+    this.logger.log(req.user,"getUser")
     const user: User = req.user;
     const { name, avatar_src, role, ...o } = user;
     return {
