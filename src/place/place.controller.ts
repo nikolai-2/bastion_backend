@@ -14,7 +14,10 @@ import { ZoneService } from '../zone/zone.service';
 @UseGuards(JwtAuthGuard)
 export class PlaceController {
   private readonly logger = new Logger(PlaceController.name);
-  constructor(private placeService: PlaceService) {}
+  constructor(
+    private placeService: PlaceService,
+    private zoneService: ZoneService,
+  ) {}
 
   @Get('getList')
   @ApiOperation({ summary: 'Возвращает объект охраны' })
@@ -41,6 +44,10 @@ export class PlaceController {
   @ApiProperty({ type: PlaceUpdateDto })
   @ApiOperation({ summary: 'Обновляет объект' })
   async updatePlace(@Body() placeUpdate: PlaceUpdateDto) {
+    await this.zoneService.deleteZones({
+      place_id: placeUpdate.id,
+    });
+
     return this.placeService.updatePlace({
       where: {
         id: placeUpdate.id,

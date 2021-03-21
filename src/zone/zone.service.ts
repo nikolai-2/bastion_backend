@@ -25,4 +25,10 @@ export class ZoneService {
       include: include,
     });
   }
+
+  async deleteZones(where: Prisma.ZoneWhereInput) {
+    return this.prisma.zone.deleteMany({
+      where: where,
+    });
+  }
 }

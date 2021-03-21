@@ -75,7 +75,7 @@ export class ScheduleShiftPatternController {
   @Get(':id/delete')
   @ApiProperty()
   async delete(@Param('id') id: string) {
-    await this.scheduleShiftPatternService.deleteScheduleShiftPattern({
+    return this.scheduleShiftPatternService.deleteScheduleShiftPattern({
       id: parseInt(id),
     });
   }

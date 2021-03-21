@@ -31,11 +31,11 @@ model ScheduleShiftPattern {
 model ShiftZone {
   id                        Int                  @id @default(autoincrement())
   schedule_shift_pattern_id Int
-  zone_id                   String
+  zone_id                   String?
   date                      DateTime             @default(now())
   comment                   String
   ScheduleShiftPattern      ScheduleShiftPattern @relation(fields: [schedule_shift_pattern_id], references: [id])
-  Zone                      Zone                 @relation(fields: [zone_id], references: [id])
+  Zone                      Zone?                @relation(fields: [zone_id], references: [id])
 
   @@index([schedule_shift_pattern_id], name: "schedule_shift_zone_id")
   @@index([zone_id], name: "zone_id")
