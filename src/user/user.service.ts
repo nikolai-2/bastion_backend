@@ -17,4 +17,10 @@ export class UserService {
       where: where,
     });
   }
+
+  async createUser(data: Prisma.UserCreateInput) {
+    return this.prisma.user.create({
+      data: data,
+    });
+  }
 }

@@ -1,8 +1,17 @@
-import { Controller, Get, Logger, Param, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Logger,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { smallUser } from 'src/auth/smallUser.dto';
+import { UserCreateDto } from './user-create.dto';
 
 /*@UseGuards(JwtAuthGuard)*/
 @Controller('user')
@@ -10,6 +19,14 @@ import { smallUser } from 'src/auth/smallUser.dto';
 export class UserController {
   private readonly logger = new Logger(UserController.name);
   constructor(private userService: UserService) {}
+
+  @Post('create')
+  async create(@Body() createDto: UserCreateDto) {
+    return this.userService.createUser({
+      ...createDto,
+      password_hash: '5555',
+    });
+  }
 
   @ApiOperation({ summary: 'Получить всех пользователей одной роли' })
   @ApiOkResponse({ type: [smallUser] })
