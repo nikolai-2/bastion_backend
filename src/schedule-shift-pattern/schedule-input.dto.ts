@@ -1,4 +1,4 @@
-import { IsArray, IsDate, IsNumber } from 'class-validator';
+import { IsArray, IsDate, IsDateString, IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class ScheduleInputDto {
@@ -11,7 +11,7 @@ export class ScheduleInputDto {
   place_id: number;
 
   @ApiProperty()
-  @IsDate()
+  @IsDateString()
   date: Date;
 
   @IsArray()

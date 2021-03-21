@@ -1,4 +1,12 @@
-import { Body, Controller, Logger, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Logger,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import {
   ApiOkResponse,
   ApiOperation,
@@ -49,11 +57,26 @@ export class ScheduleShiftPatternController {
   @Post('update')
   @ApiProperty({ type: ScheduleUpdateDto })
   async update(@Body() scheduleUpdateDto: ScheduleUpdateDto) {
+    console.log(scheduleUpdateDto);
+    const { guard_id, date, ...o } = scheduleUpdateDto;
+
     return this.scheduleShiftPatternService.updateScheduleShiftPattern({
       where: {
-        id: scheduleUpdateDto.id,
+        id: o.id,
       },
-      data: scheduleUpdateDto,
+      data: {
+        ...o,
+        date: new Date(date),
+        user_id: guard_id,
+      },
+    });
+  }
+
+  @Get(':id/delete')
+  @ApiProperty()
+  async delete(@Param('id') id: string) {
+    await this.scheduleShiftPatternService.deleteScheduleShiftPattern({
+      id: parseInt(id),
     });
   }
 }

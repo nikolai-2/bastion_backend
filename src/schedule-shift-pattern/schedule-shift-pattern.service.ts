@@ -50,4 +50,12 @@ export class ScheduleShiftPatternService {
       include: include,
     });
   }
+
+  async deleteScheduleShiftPattern(
+    where: Prisma.ScheduleShiftPatternWhereUniqueInput,
+  ) {
+    this.prisma.scheduleShiftPattern.delete({
+      where: where,
+    });
+  }
 }
