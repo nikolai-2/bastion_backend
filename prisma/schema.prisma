@@ -43,6 +43,7 @@ model ShiftZone {
 
 model User {
   id                   Int                    @id @default(autoincrement())
+  tag_id               String?                @unique
   name                 String
   login                String                 @unique
   avatar_src           String

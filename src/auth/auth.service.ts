@@ -21,6 +21,14 @@ export class AuthService {
     return null;
   }
 
+  async loginByTag(tagId: string): Promise<User> {
+    const user = await this.userService.user({
+      tag_id: tagId,
+    });
+
+    if (user) return user;
+  }
+
   async getToken(user: User): Promise<LoginResponseInterface> {
     const payload = { username: user.login, sub: user.id };
     const { password_hash, login, id, ...usData } = user;
