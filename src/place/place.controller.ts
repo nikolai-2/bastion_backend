@@ -5,34 +5,59 @@ import { PlaceInputDto } from './place-input.dto';
 import { RolesGuard } from 'src/role/roles.guard';
 import { Roles } from 'src/role/roles.decorator';
 import { Role } from 'src/role/roles.enum';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { PlaceUpdateDto } from './place-update.dto';
+import { ZoneService } from '../zone/zone.service';
 
 @Controller('place')
 @ApiTags('place')
-@UseGuards(RolesGuard)
+@UseGuards(JwtAuthGuard)
 export class PlaceController {
-  private readonly logger = new Logger(PlaceController.name)
+  private readonly logger = new Logger(PlaceController.name);
   constructor(private placeService: PlaceService) {}
 
-  /*
-  @Roles(Role.Guard,Role.Boss)
-  @Get('get')
+  @Get('getList')
   @ApiOperation({ summary: 'Возвращает объект охраны' })
-  getPlace() {
-    this.logger.log()
+  getList() {
+    /*this.logger.log()*/
     return this.placeService.getPlace();
   }
-  */
 
   @Roles(Role.Boss)
   @Post('create')
-  @ApiProperty({type:PlaceInputDto})
+  @ApiProperty({ type: PlaceInputDto })
   @ApiOperation({ summary: 'Создает новый объект для охраны' })
   async createPlace(@Body() placeInputDto: PlaceInputDto) {
-    this.logger.log(placeInputDto,'create')
+    this.logger.log(placeInputDto, 'create');
     return this.placeService.createPlace({
       name: placeInputDto.place_name,
       Zone: {
         create: placeInputDto.zones,
+      },
+    });
+  }
+
+  @Post('update')
+  @ApiProperty({ type: PlaceUpdateDto })
+  @ApiOperation({ summary: 'Обновляет объект' })
+  async updatePlace(@Body() placeUpdate: PlaceUpdateDto) {
+    return this.placeService.updatePlace({
+      where: {
+        id: placeUpdate.id,
+      },
+      data: {
+        name: placeUpdate.place_name,
+        Zone: {
+          upsert: placeUpdate.zones.map((value) => {
+            return {
+              where: {
+                id: value.id,
+              },
+              update: value,
+              create: value,
+            };
+          }),
+        },
       },
     });
   }

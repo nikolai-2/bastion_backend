@@ -5,10 +5,10 @@ import { ZoneService } from './zone.service';
 @Controller('zone')
 @ApiTags('zone')
 export class ZoneController {
-  private readonly logger = new Logger(ZoneController.name)
+  private readonly logger = new Logger(ZoneController.name);
   constructor(private zoneService: ZoneService) {}
 
-  @Get('get')
+  /*@Get('get')
   @ApiOperation({summary:"Возвращает метку"})
   get() {
     return this.zoneService.get();
@@ -18,5 +18,5 @@ export class ZoneController {
   @ApiOperation({summary:"Помечает метку как отмеченную"})
   checkZone() {
     return this.zoneService.check();
-  }
+  }*/
 }

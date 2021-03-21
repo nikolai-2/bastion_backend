@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Place, Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { PlaceExtendType } from './place-extend.type';
 
@@ -8,7 +8,22 @@ export class PlaceService {
   constructor(private prisma: PrismaService) {}
 
   getPlace() {
-    return 'Place here';
+    return this.prisma.place.findMany({
+      include: {
+        Zone: true,
+        ScheduleShiftPattern: {
+          include: {
+            User: {
+              select: {
+                name: true,
+                avatar_src: true,
+                role: true,
+              },
+            },
+          },
+        },
+      },
+    });
   }
 
   removePlace() {
@@ -29,6 +44,25 @@ export class PlaceService {
   createPlace(data: Prisma.PlaceCreateInput) {
     return this.prisma.place.create({
       data: data,
+    });
+  }
+
+  async updatePlace(params: {
+    where: Prisma.PlaceWhereUniqueInput;
+    data: Prisma.PlaceUpdateInput;
+  }): Promise<Place> {
+    const { where, data } = params;
+    return this.prisma.place.update({
+      data,
+      where,
+      include: {
+        Zone: true,
+        ScheduleShiftPattern: {
+          include: {
+            User: true,
+          },
+        },
+      },
     });
   }
 }

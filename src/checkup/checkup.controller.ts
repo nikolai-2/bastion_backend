@@ -24,7 +24,7 @@ import { inspect } from 'util';
 @Controller('checkup')
 @ApiTags('checkup')
 export class CheckupController {
-  private readonly logger = new Logger(CheckupController.name)
+  private readonly logger = new Logger(CheckupController.name);
   constructor(private checkupService: CheckupService) {}
 
   @Roles(Role.Guard)
@@ -34,7 +34,7 @@ export class CheckupController {
     @Request() req,
     @Param('date') date: string,
   ): Promise<CheckupItemDto[]> {
-    this.logger.log([req.user,date],'getList')
+    this.logger.log([req.user, date], 'getList');
     return await this.checkupService.getList(req.user, date);
   }
 
@@ -45,7 +45,7 @@ export class CheckupController {
     @Request() req,
     @Body() checkedInputDto: CheckedInputDto,
   ): Promise<ShiftZoneExtendType> {
-    this.logger.log(checkedInputDto,'checked')
+    this.logger.log(checkedInputDto, 'checked');
     return this.checkupService.checked(checkedInputDto);
   }
 
@@ -56,7 +56,11 @@ export class CheckupController {
     @Request() req,
     @Body() addCommentDto: AddCommentDto,
   ): Promise<ShiftZoneExtendType> {
-    this.logger.log(addCommentDto,'addComment')
+    this.logger.log(addCommentDto, 'addComment');
     return this.checkupService.addComment(addCommentDto);
   }
+
+  @ApiProperty()
+  @Get(':schedule_shift_pattern_id/report')
+  async report(@Param('schedule_shift_pattern_id') id) {}
 }

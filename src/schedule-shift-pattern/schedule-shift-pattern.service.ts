@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Prisma } from '@prisma/client';
 import { ScheduleShiftPatternExtendType } from './schedule-shift-pattern-extend.type';
+import { ApiTags } from '@nestjs/swagger';
 
 @Injectable()
 export class ScheduleShiftPatternService {
@@ -34,6 +35,19 @@ export class ScheduleShiftPatternService {
   ) {
     return this.prisma.scheduleShiftPattern.create({
       data: data,
+    });
+  }
+
+  async updateScheduleShiftPattern(params: {
+    where: Prisma.ScheduleShiftPatternWhereUniqueInput;
+    data: Prisma.ScheduleShiftPatternUncheckedUpdateInput;
+    include?: Prisma.ScheduleShiftPatternInclude;
+  }) {
+    const { where, data, include } = params;
+    return this.prisma.scheduleShiftPattern.update({
+      where: where,
+      data: data,
+      include: include,
     });
   }
 }

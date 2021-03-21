@@ -1,7 +1,11 @@
 import { IsArray, IsDate, IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ScheduleInputDto {
+export class ScheduleUpdateDto {
+  @ApiProperty()
+  @IsNumber()
+  id: number;
+
   @ApiProperty()
   @IsNumber()
   guard_id: number;

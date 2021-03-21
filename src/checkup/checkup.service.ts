@@ -97,7 +97,7 @@ export class CheckupService {
     const currentDate = new Date();
     const unixCurrentTime =
       currentDate.getUTCHours() * 3600 + currentDate.getUTCMinutes() * 60;
-
+    console.log(unixCurrentTime, unixEventTime);
     if (unixCurrentTime < unixEventTime) throw new BadRequestException();
 
     return this.shiftZoneService.createShiftZone({
