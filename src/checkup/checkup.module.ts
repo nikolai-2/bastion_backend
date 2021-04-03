@@ -7,5 +7,6 @@ import { ShiftZoneModule } from '../shift-zone/shift-zone.module';
   imports: [ScheduleShiftPatternModule, ShiftZoneModule],
   controllers: [CheckupController],
   providers: [CheckupService],
+  exports: [CheckupService],
 })
 export class CheckupModule {}

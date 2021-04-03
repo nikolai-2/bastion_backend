@@ -20,6 +20,9 @@ export class UserController {
   private readonly logger = new Logger(UserController.name);
   constructor(private userService: UserService) {}
 
+  @Get('test')
+  async test() {}
+
   @Post('create')
   async create(@Body() createDto: UserCreateDto) {
     return this.userService.createUser({
@@ -27,6 +30,14 @@ export class UserController {
       password_hash: '5555',
     });
   }
+
+  /*@Post('update')
+  async update(@Body() createDto: UserCreateDto) {
+    return this.userService.updateUser({
+      ...createDto,
+      password_hash: '5555',
+    });
+  }*/
 
   @ApiOperation({ summary: 'Получить всех пользователей одной роли' })
   @ApiOkResponse({ type: [smallUser] })

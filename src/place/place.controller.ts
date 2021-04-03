@@ -8,6 +8,7 @@ import { Role } from 'src/role/roles.enum';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { PlaceUpdateDto } from './place-update.dto';
 import { ZoneService } from '../zone/zone.service';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Controller('place')
 @ApiTags('place')
@@ -17,6 +18,7 @@ export class PlaceController {
   constructor(
     private placeService: PlaceService,
     private zoneService: ZoneService,
+    private eventEmitter: EventEmitter2,
   ) {}
 
   @Get('getList')

@@ -23,4 +23,6 @@ export class UserService {
       data: data,
     });
   }
+
+  /*async updateUser(data: Prisma.UserUpdateInput);*/
 }

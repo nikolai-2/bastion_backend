@@ -1,7 +1,6 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { ValidationPipe } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { User } from '@prisma/client';
 import * as admin from 'firebase-admin';
 
 const cert = {
@@ -19,20 +18,23 @@ const cert = {
     'https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-mqen8%40skatguard.iam.gserviceaccount.com',
 };
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    /* logger: ['verbose'],*/
-    cors: true,
-  });
-  app.useGlobalPipes(new ValidationPipe());
+@Injectable()
+export class FirebaseService {
+  constructor(private eventEmitter: EventEmitter2) {
+    admin.initializeApp({
+      credential: admin.credential.cert(cert as object),
+    });
 
-  const config = new DocumentBuilder()
-    .setTitle('Skat guard')
-    .setDescription('Description')
-    .setVersion('1.0')
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
-  await app.listen(3000);
+    eventEmitter.on('fb.send', this.sendMessage.bind(this));
+  }
+
+  async sendMessage(userId: number, title: string, message: string) {
+    await admin.messaging().send({
+      notification: {
+        title: title,
+        body: message,
+      },
+      topic: `user-${userId}`,
+    });
+  }
 }
-bootstrap();

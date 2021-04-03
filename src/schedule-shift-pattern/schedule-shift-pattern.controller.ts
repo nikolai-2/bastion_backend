@@ -21,6 +21,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ScheduleInputDto } from './schedule-input.dto';
 import { ScheduleShiftPatternService } from './schedule-shift-pattern.service';
 import { ScheduleUpdateDto } from './schedule-update.dto';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('schedule')
@@ -29,6 +30,7 @@ export class ScheduleShiftPatternController {
   private readonly logger = new Logger(ScheduleShiftPatternController.name);
   constructor(
     private scheduleShiftPatternService: ScheduleShiftPatternService,
+    private eventEmitter: EventEmitter2,
   ) {}
 
   @Roles(Role.Boss)
@@ -38,6 +40,12 @@ export class ScheduleShiftPatternController {
     @Body() scheduleInput: ScheduleInputDto,
   ): Promise<ScheduleShiftPattern> {
     this.logger.log(scheduleInput, 'create');
+    this.eventEmitter.emit(
+      'fb.send',
+      scheduleInput.guard_id,
+      'Новое расписание',
+      'На вас назначен новый объект. Проверьте приложение',
+    );
     return this.scheduleShiftPatternService.createScheduleShiftPattern({
       User: {
         connect: {
@@ -58,6 +66,12 @@ export class ScheduleShiftPatternController {
   @ApiProperty({ type: ScheduleUpdateDto })
   async update(@Body() scheduleUpdateDto: ScheduleUpdateDto) {
     console.log(scheduleUpdateDto);
+    this.eventEmitter.emit(
+      'fb.send',
+      scheduleUpdateDto.guard_id,
+      'Изменение в расписании',
+      'В вашем расписании появлись изменения',
+    );
     const { guard_id, date, ...o } = scheduleUpdateDto;
 
     return this.scheduleShiftPatternService.updateScheduleShiftPattern({
@@ -75,8 +89,17 @@ export class ScheduleShiftPatternController {
   @Get(':id/delete')
   @ApiProperty()
   async delete(@Param('id') id: string) {
-    return this.scheduleShiftPatternService.deleteScheduleShiftPattern({
-      id: parseInt(id),
-    });
+    const r = await this.scheduleShiftPatternService.deleteScheduleShiftPattern(
+      {
+        id: parseInt(id),
+      },
+    );
+
+    this.eventEmitter.emit(
+      'fb.send',
+      r.user_id,
+      'Изменение в расписании',
+      'Объект из вашего расписания был удален',
+    );
   }
 }

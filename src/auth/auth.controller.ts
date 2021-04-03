@@ -58,8 +58,9 @@ export class AuthController {
   async getUser(@Request() req) {
     this.logger.log(req.user, 'getUser');
     const user: User = req.user;
-    const { name, avatar_src, role, ...o } = user;
+    const { name, avatar_src, role, id, ...o } = user;
     return {
+      id: id,
       name: name,
       avatar_src: avatar_src,
       role: role,
