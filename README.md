@@ -1,3 +1,14 @@
+## Преамбула
+
+Это проект с хакатона, проект для охранных организаций, которые хотят быть уверенными в том, что охранник совершает обходы. Для этого на объекте размещены nfc метки, которые должен сканировать охранник во время обхода.
+
+## Скриншоты
+
+<img src="https://sun9-11.userapi.com/impg/1tKVyTs5-nAcyKE0shE3bPA_5-eeFxcIGDCqMw/rNrAzPKc9_Q.jpg?size=750x1624&quality=96&sign=95494cd8b935f87171ec041c5a44272e&type=album" alt="Чекин" width="200"/>
+<img src="https://sun9-27.userapi.com/impg/SkTjCj-2pG_qWPS20a5elE8Q7k4zRsABhXWBNw/3EvC3gZWngw.jpg?size=750x1624&quality=96&sign=c06710fd9e4c701dc387d4a5091b339c&type=album" alt="Список" width="200"/>
+
+
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
 </p>
